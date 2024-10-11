@@ -1,4 +1,6 @@
-fn main() {
-    /* The TCP Server will be run from here */
-    println!("Hello, world!");
-}
+mod server;
+
+fn main() -> std::io::Result<()> {
+    let res = server::bind_server();
+    Ok(())
+} 
