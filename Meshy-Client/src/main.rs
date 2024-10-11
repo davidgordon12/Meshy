@@ -3,8 +3,9 @@ use std::net::TcpStream;
 
 fn main() -> std::io::Result<()> {
     let mut stream = TcpStream::connect("127.0.0.1:1337")?;
-
-    stream.write(&[1, 2, 3, 4, 5, 6])?;
-    stream.read(&mut [0; 128])?;
+    let mut res = Vec::<u8>::new();
+    let x = String::from("hey");
+    let _ = stream.write(x.as_bytes());
+    let _ = stream.read(&mut res);
     Ok(())
 } // the stream is closed here
