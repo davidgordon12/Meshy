@@ -4,7 +4,7 @@ use std::net::TcpStream;
 fn main() -> std::io::Result<()> {
     let mut stream = TcpStream::connect("127.0.0.1:4996")?;
     let mut res = [0; 1024];
-    let x = String::from("/home/akali/Developer/Meshy/temp/tmp.txt");
+    let x = String::from("/home/akali/Developer/Meshy/temp");
     let _ = stream.write(x.as_bytes());
     let _ = stream.read(&mut res);
 

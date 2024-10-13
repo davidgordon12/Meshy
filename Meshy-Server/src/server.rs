@@ -11,12 +11,12 @@ pub fn bind_server() -> Result<()> {
     // accept connections and process them serially
     let stream = listener.accept();
     match stream {
-        Ok((stream, _)) => Ok(handle_request(stream)?),
+        Ok((mut stream, _)) => Ok(handle_request(&mut stream)?),
         Err(x) => Err(x),
     }
 }
 
-fn handle_request(mut stream: TcpStream) -> Result<()> {
+fn handle_request(stream: &mut TcpStream) -> Result<()> {
     let mut buff = [0; INPUT_BUFFER_MAX_SIZE];
 
     let sz: usize = stream.read(&mut buff)?;
