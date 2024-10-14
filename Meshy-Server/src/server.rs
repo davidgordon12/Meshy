@@ -8,7 +8,6 @@ const INPUT_BUFFER_MAX_SIZE: usize = 1024;
 pub fn bind_server() -> Result<()> {
     let listener = TcpListener::bind("127.0.0.1:4996")?;
 
-    // accept connections and process them serially
     let stream = listener.accept();
     match stream {
         Ok((mut stream, _)) => Ok(handle_request(&mut stream)?),
@@ -19,11 +18,15 @@ pub fn bind_server() -> Result<()> {
 fn handle_request(stream: &mut TcpStream) -> Result<()> {
     let mut buff = [0; INPUT_BUFFER_MAX_SIZE];
 
-    let sz: usize = stream.read(&mut buff)?;
-    let res = &buff[..sz];
-    let result = String::from_utf8(res.to_vec()).unwrap_or(String::from(""));
+    let mut result = String::from("");
 
-    match copy_file_into_buffer(stream, result) {
+    {
+        let sz: usize = stream.read(&mut buff)?;
+        let res = &buff[..sz];
+        result = String::from_utf8(res.to_vec()).unwrap_or(String::from(""));
+    }
+
+    match copy_file_into_buffer(result) {
         Ok(x) => Ok(x),
         Err(x) => Err(x),
     }
